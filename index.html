@@ -5,8 +5,8 @@
 function tiggerMeasurement() {
     navigator.bluetooth.requestDevice({
         acceptAllDevices: true,
-        optionalServices: ['EB0FD000-2D0A-43CF-9521-747BE0681D5A']
-      })
+        optionalServices: ['eb0fd000-2d0a-43cf-9521-747be0681d5a']
+        })
         .then(function(device) {
           // Step 2: Connect to it
           return device.gatt.connect();
@@ -14,16 +14,21 @@ function tiggerMeasurement() {
         })
         .then(function(server) {
           // Step 3: Get the Service
-          return server.getPrimaryService('EB0FD000-2D0A-43CF-9521-747BE0681D5A');
+          return server.getPrimaryService('eb0fd000-2d0a-43cf-9521-747be0681d5a');
         })
         .then(function(service) {
           // Step 4: get the Characteristic
-          return service.getCharacteristic('EB0FD002-2D0A-43CF-9521-747BE0681D5A');
+          return service.getCharacteristic('eb0fd001-2d0a-43cf-9521-747be0681d5a');
         })
         .then(function(characteristic) {
           // Step 5: Write to the characteristic
-          var data = new Uint8Array([0x01]);
-          return characteristic.writeValue(data[0]);
+          //var data = new Uint8Array([0x01]);
+          //return characteristic.writeValue(data[0]);
+          return characteristic.readValue();
+        })
+        .then(function(value) {
+          let tempData = value.getUint8(0);
+          document.getElementById("temp").innerHTML = 'Temp: '+tempData;
         })
         .catch(function(error) {
            // And of course: error handling!
