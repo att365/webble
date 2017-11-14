@@ -5,7 +5,7 @@
 function tiggerMeasurement() {
     navigator.bluetooth.requestDevice({
         acceptAllDevices: true,
-        optionalServices: ['0xD000']
+        services: ['0xD000']
       })
         .then(function(device) {
           // Step 2: Connect to it
