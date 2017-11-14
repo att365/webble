@@ -4,7 +4,8 @@
 <script>
 function tiggerMeasurement() {
     navigator.bluetooth.requestDevice({
-        acceptAllDevices: true
+        acceptAllDevices: true,
+        optionalServices: ['0xD000']
       })
         .then(function(device) {
           // Step 2: Connect to it
@@ -12,7 +13,7 @@ function tiggerMeasurement() {
         })
         .then(function(server) {
           // Step 3: Get the Service
-          return server.getPrimaryService(0xD001);
+          return server.getPrimaryService(0xD000);
         })
         .then(function(service) {
           // Step 4: get the Characteristic
