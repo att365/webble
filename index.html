@@ -4,7 +4,7 @@
 <script>
 function tiggerMeasurement() {
     navigator.bluetooth.requestDevice({
-        filters: [{namePrefix: 'Air'}],
+        acceptAllDevices: true,
         optionalServices: ['EB0FD000-2D0A-43CF-9521-747BE0681D5A']
       })
         .then(function(device) {
