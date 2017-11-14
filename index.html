@@ -27,7 +27,7 @@ function tiggerMeasurement() {
           return characteristic.readValue();
         })
         .then(function(value) {
-          let tempData = value.getUint16(2,false);
+          let tempData = value.getUint16(2);
           document.getElementById("temp").innerHTML = 'Temp: ' + tempData;
         })
         .catch(function(error) {
