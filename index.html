@@ -4,20 +4,21 @@
 <script>
 function tiggerMeasurement() {
     navigator.bluetooth.requestDevice({
-        acceptAllDevices: true,
-        services: ['0xD000']
+        filters: [{namePrefix: 'Air'}],
+        optionalServices: ['EB0FD000-2D0A-43CF-9521-747BE0681D5A']
       })
         .then(function(device) {
           // Step 2: Connect to it
           return device.gatt.connect();
+          console.log('connceted...');
         })
         .then(function(server) {
           // Step 3: Get the Service
-          return server.getPrimaryService(0xD000);
+          return server.getPrimaryService('EB0FD000-2D0A-43CF-9521-747BE0681D5A');
         })
         .then(function(service) {
           // Step 4: get the Characteristic
-          return service.getCharacteristic(0xD002);
+          return service.getCharacteristic('EB0FD002-2D0A-43CF-9521-747BE0681D5A');
         })
         .then(function(characteristic) {
           // Step 5: Write to the characteristic
