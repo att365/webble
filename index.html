@@ -37,6 +37,7 @@ function scanConnect() {
 	  })
 	  .then(function(server) {
 	  bleserver1 = server;
+	  console.log('server connected '+bleserver1);
 	  })
       .catch(error => {
         console.log('Error! ' + error);
