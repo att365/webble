@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<title>MuSe Web BLE</title>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+}
+
+td, th {
+    border: 2px solid #dddddd;
+    text-align: left;
+    padding: 6px;
+}
+
+tr:nth-child(even) {
+    background-color: #d4d5dd;
+}
+</style>
 <script>
 function tiggerMeasurement() {
     navigator.bluetooth.requestDevice({
@@ -27,10 +47,18 @@ function tiggerMeasurement() {
           return characteristic.readValue();
         })
         .then(function(value) {
-          let tempData = value.getUint16(2,true);
-          let presData = value.getUint16(5);
-          document.getElementById("temp").innerHTML = 'Temp: ' + tempData;
-          document.getElementById("pres").innerHTML = 'Pres: ' + presData;
+          let pressureData = value.getUint16(0, true);
+          let temperatureData = value.getUint16(2,true);
+          let humidityData = value.getUInt8(4,true);
+          let airqualityData = value.getUint16(5,true);
+          let loudnessData = value.getUInt8(9,true);
+          let timestampData = value.getUInt32(16,true);
+          document.getElementById("pres").innerHTML = 'Pressure: ' + pressureData;
+          document.getElementById("temp").innerHTML = 'Temperature: ' + temperatureData;
+          document.getElementById("hum").innerHTML = 'Humidity: ' + humidityData;
+          document.getElementById("aiq").innerHTML = 'AirQuality: ' + airqualityData;
+          document.getElementById("loud").innerHTML = 'Loudness: ' + loudnessData;
+          document.getElementById("timestamp").innerHTML = 'TimeStamp: ' + timestampData;
         })
         .catch(function(error) {
            // And of course: error handling!
@@ -44,12 +72,51 @@ function tiggerMeasurement() {
 
 <body>
 
-<h2>MultiSensor Web Bluetooth App</h2>
+<h2 style="color:blue;font-family: arial"> MultiSensor Web Bluetooth App </h2>
+<hr width="100%">
+<h3 style="font-family: arial"> Press "Trigger Measurement" button to receive new data</h3>
+<h4 style="font-family: arial" >BLE Service UUID 0xD000</h4>
 
-<p id="temp">Temperature</p>
-<p id="pres">Pressure</p>
-
-<button type="button" onclick="tiggerMeasurement()">Trigger Measurement</button>
+<p></p>
+<table>
+  <tr>
+    <th>Environment Data</th>
+    <th>Value</th>
+    <th>Unit</th>
+  </tr>
+  <tr>
+    <td>Pressure</td>
+    <td id="pres">0</td>
+    <td>hPa</td>
+  </tr>
+  <tr>
+    <td>Temperature</td>
+    <td id="temp">0</td>
+    <td>°C</td>
+  </tr>
+  <tr>
+    <td>Humidity</td>
+    <td id="hum">0</td>
+    <td>%</td>
+  </tr>
+  <tr>
+    <td>Air Quality</td>
+    <td>0</td>
+    <td>ppm</td>
+  </tr>
+  <tr>
+    <td>Loudness</td>
+    <td>0</td>
+    <td>dB</td>
+  </tr>
+  <tr>
+    <td>Time Stamp</td>
+    <td>0</td>
+    <td></td>
+  </tr>
+</table>
+<p></p>
+<button style="font-size : 20px;height:40px;width:200px" type="button" onclick="tiggerMeasurement()">Trigger Measurement</button>
 
 </body>
 </html>
