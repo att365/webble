@@ -49,10 +49,10 @@ function tiggerMeasurement() {
         .then(function(value) {
           let pressureData = value.getUint16(0, true);
           let temperatureData = value.getUint16(2,true);
-          let humidityData = value.getUInt8(4,true);
+          let humidityData = value.getUint8(4,true);
           let airqualityData = value.getUint16(5,true);
-          let loudnessData = value.getUInt8(9,true);
-          let timestampData = value.getUInt32(16,true);
+          let loudnessData = value.getUint8(9,true);
+          let timestampData = value.getUint32(16,true);
           document.getElementById("pres").innerHTML = 'Pressure: ' + pressureData;
           document.getElementById("temp").innerHTML = 'Temperature: ' + temperatureData;
           document.getElementById("hum").innerHTML = 'Humidity: ' + humidityData;
