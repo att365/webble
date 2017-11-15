@@ -33,7 +33,7 @@ function scanConnect() {
       .then(function(device) {
       bluetoothDevice1=device;
       bluetoothDevice1.addEventListener('gattserverdisconnected', onDisconnected);
-	  return bluetoothDevice1.gatt.connect();
+	  return device.gatt.connect();
 	  })
 	  .then(function(server) {
 	  bleserver1 = server;
