@@ -35,7 +35,7 @@ function scanConnect() {
       bluetoothDevice1.addEventListener('gattserverdisconnected', onDisconnected);
 	  return bluetoothDevice1.gatt.connect();
 	  })
-	  .then(function(server)) {
+	  .then(function(server) {
 	  bleserver1 = server;
 	  })
       .catch(error => {
