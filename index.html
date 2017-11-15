@@ -69,6 +69,7 @@ function onDisconnected(event) {
 }
 function tiggerMeasurement() {
 		tiggerMeasurement1();
+		console.log('Testing');
         return bleserver1.getPrimaryService('eb0fd000-2d0a-43cf-9521-747be0681d5a')
         .then(function(service) {
           // Step 4: get the Characteristic
