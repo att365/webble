@@ -22,20 +22,35 @@ tr:nth-child(even) {
 }
 </style>
 <script>
-function tiggerMeasurement() {
+
+var bluetoothDevice1;
+var bleserver1;
+function scanConnect() {
     navigator.bluetooth.requestDevice({
-        acceptAllDevices: true,
-        optionalServices: ['eb0fd000-2d0a-43cf-9521-747be0681d5a']
-        })
-        .then(function(device) {
-          // Step 2: Connect to it
-          return device.gatt.connect();
-          console.log('connceted...');
-        })
-        .then(function(server) {
-          // Step 3: Get the Service
-          return server.getPrimaryService('eb0fd000-2d0a-43cf-9521-747be0681d5a');
-        })
+      acceptAllDevices: true,
+      optionalServices: ['eb0fd000-2d0a-43cf-9521-747be0681d5a']
+      })
+      .then(function(device) {
+      bluetoothDevice1=device;
+      bluetoothDevice1.addEventListener('gattserverdisconnected', onDisconnected);
+	  return bluetoothDevice1.gatt.connect();
+	  })
+	  .then(function(server)) {
+	  bleserver1 = server;
+	  })
+      .catch(error => {
+        console.log('Error! ' + error);
+	});  
+}
+
+
+
+function onDisconnected(event) {
+  console.log('BLE Device disconnected');
+  
+}
+function tiggerMeasurement() {
+        return bleserver1.getPrimaryService('eb0fd000-2d0a-43cf-9521-747be0681d5a')
         .then(function(service) {
           // Step 4: get the Characteristic
           return service.getCharacteristic('eb0fd001-2d0a-43cf-9521-747be0681d5a');
@@ -74,6 +89,7 @@ function tiggerMeasurement() {
 
 <h2 style="color:blue;font-family: arial"> MultiSensor Web Bluetooth App </h2>
 <hr width="100%">
+<button style="font-size : 15px;height:40px;width:400px" type="button" onclick="scanConnect()">Find device/Connect</button>
 <h3 style="font-family: arial"> Press "Trigger Measurement" button to receive new data</h3>
 <h4 style="font-family: arial" >BLE Service UUID 0xD000</h4>
 
