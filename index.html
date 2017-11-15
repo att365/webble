@@ -54,11 +54,11 @@ function tiggerMeasurement() {
           let loudnessData = value.getUint8(9,true);
           let timestampData = value.getUint32(16,true);
           document.getElementById("pres").innerHTML =  pressureData;
-          document.getElementById("temp").innerHTML = 'Temperature: ' + temperatureData;
-          document.getElementById("hum").innerHTML = 'Humidity: ' + humidityData;
-          document.getElementById("aiq").innerHTML = 'AirQuality: ' + airqualityData;
-          document.getElementById("loud").innerHTML = 'Loudness: ' + loudnessData;
-          document.getElementById("timestamp").innerHTML = 'TimeStamp: ' + timestampData;
+          document.getElementById("temp").innerHTML = temperatureData;
+          document.getElementById("hum").innerHTML =  humidityData;
+          document.getElementById("aiq").innerHTML =  airqualityData;
+          document.getElementById("loud").innerHTML = loudnessData;
+          document.getElementById("timestamp").innerHTML = timestampData;
         })
         .catch(function(error) {
            // And of course: error handling!
