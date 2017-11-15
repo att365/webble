@@ -22,7 +22,41 @@ tr:nth-child(even) {
 }
 </style>
 <script>
+function tiggerMeasurement1() {
+    navigator.bluetooth.requestDevice({
+        acceptAllDevices: true,
+        optionalServices: ['eb0fd000-2d0a-43cf-9521-747be0681d5a']
+        })
+        .then(function(device) {
+          // Step 2: Connect to it
+          return device.gatt.connect();
+          console.log('connceted...');
+        })
+        .then(function(server) {
+          // Step 3: Get the Service
+          return server.getPrimaryService('eb0fd000-2d0a-43cf-9521-747be0681d5a');
+        })
+        .then(function(service) {
+          // Step 4: get the Characteristic
+          return service.getCharacteristic('eb0fd002-2d0a-43cf-9521-747be0681d5a');
+        })
+        .then(function(characteristic) {
+          // Step 5: Write to the characteristic
+          //var data = new Uint8Array([0x01]);
+          //return characteristic.writeValue(data[0]);
+          var trigger = Uint8Array.of(1);
+          return characteristic.writeValue(trigger);
+        })
+        .then(function()) {
+          console.log('testtt..');
+        })
+        .catch(function(error) {
+           // And of course: error handling!
+           window.alert("Connection failed! Please check Bluetooth Settings");
+           console.error('Connection failed!', error);
+        });
 
+}
 var bluetoothDevice1;
 var bleserver1;
 function scanConnect() {
@@ -41,14 +75,14 @@ function scanConnect() {
 	  })
       .catch(error => {
         console.log('Error! ' + error);
-	});  
+	});
 }
 
 
 
 function onDisconnected(event) {
   console.log('BLE Device disconnected');
-  
+
 }
 function tiggerMeasurement() {
         return bleserver1.getPrimaryService('eb0fd000-2d0a-43cf-9521-747be0681d5a')
